@@ -1,0 +1,92 @@
+{
+  "tool_name": "file_edit",
+  "description": "Инструмент для чтения, создания и редактирования файлов в проекте",
+  "version": "1.0.0",
+  "capabilities": [
+    "read_file",
+    "write_file", 
+    "edit_file",
+    "multi_edit",
+    "glob_search",
+    "list_directory"
+  ],
+  "tools": {
+    "Read": {
+      "purpose": "Чтение файла целиком",
+      "parameters": {
+        "filepath": "string (required) - Абсолютный путь к файлу",
+        "offset": "number (optional) - Начальная строка",
+        "limit": "number (optional) - Количество строк"
+      },
+      "returns": "Содержимое файла с номерами строк",
+      "example": "Read({ filepath: '/home/z/my-project/package.json' })"
+    },
+    "Write": {
+      "purpose": "Создание или перезапись файла",
+      "parameters": {
+        "filepath": "string (required) - Абсолютный путь",
+        "content": "string (required) - Содержимое файла"
+      },
+      "rules": [
+        "Для существующих файлов сначала использовать Read",
+        "Все файлы сохранять в /home/z/my-project/",
+        "Download файлы в /home/z/my-project/download/"
+      ],
+      "example": "Write({ filepath: '/home/z/my-project/test.ts', content: '...' })"
+    },
+    "Edit": {
+      "purpose": "Точное редактирование части файла",
+      "parameters": {
+        "filepath": "string (required)",
+        "old_str": "string (required) - Текст для замены",
+        "new_str": "string (required) - Новый текст",
+        "replace_all": "boolean (optional) - Заменить все вхождения"
+      },
+      "rules": [
+        "Сначала прочитать файл через Read",
+        "old_str должен точно совпадать с содержимым",
+        "Сохранять отступы и форматирование"
+      ]
+    },
+    "MultiEdit": {
+      "purpose": "Множественные редактирования одного файла",
+      "parameters": {
+        "filepath": "string (required)",
+        "edits": "array of { old_str, new_str, replace_all }"
+      },
+      "rules": [
+        "Редактирования применяются последовательно",
+        "Планировать редактирования для избежания конфликтов"
+      ]
+    },
+    "Glob": {
+      "purpose": "Поиск файлов по паттерну",
+      "parameters": {
+        "path": "string (required) - Директория поиска",
+        "pattern": "string (required) - Glob паттерн (например **/*.ts)"
+      },
+      "example": "Glob({ path: '/home/z/my-project/src', pattern: '**/*.tsx' })"
+    },
+    "LS": {
+      "purpose": "Листинг директории",
+      "parameters": {
+        "path": "string (required) - Абсолютный путь"
+      },
+      "example": "LS({ path: '/home/z/my-project/src/components' })"
+    }
+  },
+  "critical_paths": {
+    "main_page": "/src/app/page.tsx",
+    "layout": "/src/app/layout.tsx",
+    "globals_css": "/src/app/globals.css",
+    "sidebar": "/src/components/layout/sidebar.tsx",
+    "prisma_schema": "/prisma/schema.prisma"
+  },
+  "rules": [
+    "ВСЕГДА использовать абсолютные пути",
+    "ВСЕГДА читать файл перед редактированием",
+    "ВСЕГДА проверять существование директории перед созданием файла",
+    "НИКОГДА не использовать cat, head, tail - использовать Read",
+    "Download файлы ТОЛЬКО в /home/z/my-project/download/"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "version": "1.0.0",
+  "created": "2025-01-17T00:00:00Z",
+  "description": "Гибридная система версионности CITARION (Git + Snapshot + Journal)",
+  
+  "config": {
+    "max_daily_snapshots": 30,
+    "max_hourly_snapshots": 24,
+    "max_before_change_snapshots": 50,
+    "auto_git_commit": true,
+    "snapshot_on_start": true,
+    "snapshot_before_change": true,
+    
+    "watch_patterns": [
+      "src/**/*.{ts,tsx}",
+      "docs/**/*.md",
+      "prisma/**/*",
+      ".agent/**/*",
+      "*.{json,yaml,md}"
+    ],
+    
+    "ignore_patterns": [
+      "node_modules/**",
+      ".next/**",
+      "download/**",
+      "*.lock",
+      "db/*.db"
+    ]
+  },
+  
+  "statistics": {
+    "total_changes": 0,
+    "total_snapshots": 0,
+    "total_git_commits": 0,
+    "files_tracked": 0
+  },
+  
+  "entries": [
+    {
+      "id": "entry-001",
+      "timestamp": "2025-01-17T12:00:00Z",
+      "type": "system_init",
+      "description": "Инициализация системы версионности",
+      "files_affected": [],
+      "snapshot_path": "daily/2025-01-17/",
+      "git_commit": null,
+      "rollback_available": true
+    }
+  ],
+  
+  "rollback_stack": [],
+  
+  "file_index": {
+    "_comment": "Индекс всех отслеживаемых файлов с их последними версиями",
+    "_example": {
+      "src/app/page.tsx": {
+        "last_modified": "2025-01-17T12:00:00Z",
+        "version": 1,
+        "hash": "abc123",
+        "size": 12345
+      }
+    }
+  }
+}

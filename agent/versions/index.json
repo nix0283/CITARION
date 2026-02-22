@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-01-17T00:00:00Z",
+  "git": {
+    "initialized": false,
+    "last_commit": null,
+    "last_commit_hash": null,
+    "commits_count": 0,
+    "branch": "main",
+    "remote": null
+  },
+  "snapshots": {
+    "daily": [
+      {
+        "path": "/home/z/my-project/.agent/versions/daily/2026-02-21",
+        "timestamp": "2026-02-21T20:57:55+00:00"
+      },
+      {
+        "path": "/home/z/my-project/.agent/versions/daily/2026-02-21",
+        "timestamp": "2026-02-21T21:04:28+00:00"
+      }
+    ],
+    "hourly": [],
+    "before_change": []
+  },
+  "journal": {
+    "entries_count": 1,
+    "last_entry_id": "entry-001"
+  },
+  "tracked_files": {
+    "total": 0,
+    "by_extension": {
+      ".ts": 0,
+      ".tsx": 0,
+      ".md": 0,
+      ".json": 0,
+      ".yaml": 0,
+      ".prisma": 0
+    }
+  },
+  "disk_usage": {
+    "snapshots_bytes": 0,
+    "git_bytes": 0,
+    "total_bytes": 0
+  }
+}

@@ -1,0 +1,101 @@
+# CITARION Agent Configuration
+# Конфигурация агента для проекта CITARION
+
+agent:
+  name: "CITARION Agent"
+  version: "1.0.0"
+  project: "CITARION Crypto Trading Platform"
+  created: "2025-01-17"
+  
+model:
+  provider: "z-ai"
+  default_model: "claude-sonnet"
+  temperature: 0.7
+  max_tokens: 8192
+  context_window: 200000
+  
+behavior:
+  language: "ru"  # Язык общения с пользователем
+  code_language: "TypeScript"  # Основной язык кода
+  framework: "Next.js 16"  # Основной фреймворк
+  style: "professional"  # Стиль ответов
+  
+project_context:
+  root: "/home/z/my-project"
+  main_route: "/src/app/page.tsx"
+  database: "SQLite (Prisma)"
+  port: 3000
+  
+critical_rules:
+  - "z-ai-web-dev-sdk MUST be used in backend only"
+  - "Next.js runs on port 3000 only"
+  - "All generated files go to /home/z/my-project/download/"
+  - "Use bun run lint for code quality checks"
+  - "Never run bun run build - use dev server"
+  
+worklog_files:
+  - path: "/WORKLOG.md"
+    purpose: "Общая история проекта"
+  - path: "/src/components/WORKLOG.md"
+    purpose: "UI компоненты"
+  - path: "/src/lib/WORKLOG.md"
+    purpose: "Библиотеки"
+  - path: "/src/lib/exchange/WORKLOG.md"
+    purpose: "Exchange клиенты"
+  - path: "/src/lib/exchange/copy-trading/WORKLOG.md"
+    purpose: "Copy Trading API"
+  - path: "/src/lib/indicators/WORKLOG.md"
+    purpose: "Индикаторы"
+  - path: "/src/app/api/WORKLOG.md"
+    purpose: "API Routes"
+  - path: "/docs/WORKLOG.md"
+    purpose: "Документация"
+  - path: "/prisma/WORKLOG.md"
+    purpose: "База данных"
+
+supported_exchanges:
+  - name: "Binance"
+    status: "active"
+    docs: "/docs/exchanges/binance/README.md"
+  - name: "Bybit"
+    status: "active"
+    docs: "/docs/exchanges/bybit/README.md"
+  - name: "OKX"
+    status: "active"
+    docs: "/docs/exchanges/okx/README.md"
+  - name: "Bitget"
+    status: "active"
+    docs: "/docs/exchanges/bitget/README.md"
+  - name: "BingX"
+    status: "active"
+    docs: "/docs/exchanges/bingx/README.md"
+
+key_files:
+  main_page: "/src/app/page.tsx"
+  sidebar: "/src/components/layout/sidebar.tsx"
+  price_chart: "/src/components/chart/price-chart.tsx"
+  copy_trading_panel: "/src/components/copy-trading/copy-trading-panel.tsx"
+  master_trader_panel: "/src/components/copy-trading/master-trader-panel.tsx"
+  pine_converter: "/src/lib/pine-converter.ts"
+  exchange_base: "/src/lib/exchange/base-client.ts"
+  prisma_schema: "/prisma/schema.prisma"
+  db_client: "/src/lib/db.ts"
+
+documentation:
+  exchanges: "/docs/exchanges/"
+  frameworks: "/docs/frameworks/"
+  fees: "/docs/exchanges/TRADING_FEES.md"
+  compliance: "/docs/exchanges/COMPLIANCE_REPORT.md"
+
+prompts:
+  context_recovery: |
+    Изучи файлы WORKLOG.md в проекте CITARION:
+    1. /WORKLOG.md - Общая история
+    2. /src/components/WORKLOG.md - UI компоненты
+    3. /src/lib/WORKLOG.md - Библиотеки
+    4. /src/app/api/WORKLOG.md - API Routes
+    После изучения сообщи текущий статус проекта.
+
+  quick_start: |
+    Изучи файл /PROMPT.md и /.agent/state/current_task.json
+    для восстановления контекста задачи.

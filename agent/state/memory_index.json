@@ -1,0 +1,169 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-01-17T00:00:00Z",
+  "project_knowledge": {
+    "architecture": {
+      "framework": "Next.js 16.1.3 с App Router",
+      "react_version": "19",
+      "runtime": "bun",
+      "database": "SQLite с Prisma ORM",
+      "ui_library": "shadcn/ui (42 компонента)"
+    },
+    "exchanges": {
+      "supported": ["binance", "bybit", "okx", "bitget", "bingx"],
+      "features": {
+        "trading": true,
+        "copy_trading": true,
+        "websocket": true,
+        "funding_rates": true
+      },
+      "docs_path": "/docs/exchanges/"
+    },
+    "key_components": {
+      "price_chart": {
+        "path": "/src/components/chart/price-chart.tsx",
+        "features": [
+          "lightweight-charts для candlestick",
+          "Overlay индикаторы (SMA, EMA, BB)",
+          "Pane индикаторы (RSI, MACD, ATR)",
+          "Resizable panes",
+          "Синхронизация scroll"
+        ]
+      },
+      "copy_trading": {
+        "path": "/src/components/copy-trading/",
+        "files": ["copy-trading-panel.tsx", "master-trader-panel.tsx"],
+        "api_path": "/src/lib/exchange/copy-trading/"
+      },
+      "pine_converter": {
+        "path": "/src/lib/pine-converter.ts",
+        "purpose": "Конверсия Pine Script v5 в PineTS",
+        "templates": ["sma", "ema", "rsi", "macd", "bollinger", "crossover"]
+      },
+      "indicators": {
+        "calculator_path": "/src/lib/indicators/calculator.ts",
+        "supported": ["SMA", "EMA", "EMA Cross", "RSI", "MACD", "BB", "ATR", "Volume SMA"]
+      }
+    },
+    "critical_rules": [
+      "z-ai-web-dev-sdk ТОЛЬКО в backend",
+      "Port 3000 для Next.js",
+      "bun run lint для проверки кода",
+      "НЕ запускать bun run build",
+      "Все output файлы в /download/"
+    ],
+    "common_patterns": {
+      "useMemo_vs_useEffect": {
+        "rule": "Использовать useMemo для вычислений, useEffect для side effects",
+        "example": "const data = useMemo(() => compute(a, b), [a, b]);"
+      },
+      "import_vs_require": {
+        "rule": "Использовать ES import, не require()",
+        "async_import": "const { Module } = await import('./module');"
+      },
+      "backend_sdk": {
+        "rule": "z-ai-web-dev-sdk только в API routes или server actions",
+        "example": "import ZAI from 'z-ai-web-dev-sdk'; // Только в /api/ или server components"
+      }
+    }
+  },
+  "file_indices": {
+    "worklog_files": [
+      "/WORKLOG.md",
+      "/src/components/WORKLOG.md",
+      "/src/lib/WORKLOG.md",
+      "/src/lib/exchange/WORKLOG.md",
+      "/src/lib/exchange/copy-trading/WORKLOG.md",
+      "/src/lib/indicators/WORKLOG.md",
+      "/src/lib/vision-bot/WORKLOG.md",
+      "/src/app/api/WORKLOG.md",
+      "/docs/WORKLOG.md",
+      "/docs/exchanges/WORKLOG.md",
+      "/docs/frameworks/WORKLOG.md",
+      "/prisma/WORKLOG.md",
+      "/mini-services/WORKLOG.md"
+    ],
+    "key_source_files": [
+      "/src/app/page.tsx",
+      "/src/components/layout/sidebar.tsx",
+      "/src/components/chart/price-chart.tsx",
+      "/src/lib/exchange/base-client.ts",
+      "/src/lib/pine-converter.ts",
+      "/src/lib/indicators/calculator.ts",
+      "/prisma/schema.prisma"
+    ],
+    "documentation": [
+      "/docs/exchanges/binance/README.md",
+      "/docs/exchanges/bybit/README.md",
+      "/docs/exchanges/okx/README.md",
+      "/docs/exchanges/bitget/README.md",
+      "/docs/exchanges/bingx/README.md",
+      "/docs/exchanges/TRADING_FEES.md",
+      "/docs/frameworks/z-ai-sdk.md",
+      "/docs/frameworks/pinets.md",
+      "/docs/frameworks/lightweight-charts.md"
+    ]
+  },
+  "bug_fixes_memory": [
+    {
+      "issue": "Белый экран каждые 3-4 секунды",
+      "file": "/src/components/copy-trading/master-trader-panel.tsx",
+      "cause": "setState в useEffect вызывал cascading re-renders",
+      "solution": "Замена useEffect на useMemo для computed values",
+      "date": "2025-01-17"
+    },
+    {
+      "issue": "ESLint error require() usage",
+      "file": "/src/lib/exchange/bitget-client.ts",
+      "cause": "CommonJS require() вместо ES import",
+      "solution": "Замена на async import()",
+      "date": "2025-01-17"
+    },
+    {
+      "issue": "Value is null в lightweight-charts",
+      "file": "/src/components/chart/price-chart.tsx",
+      "cause": "Race condition - chart rendering before data loaded",
+      "solution": "Added isChartReady state and checks before setData",
+      "date": "2025-01-17"
+    },
+    {
+      "issue": "TypeScript errors in copy-trading routes",
+      "files": "/src/app/api/copy-trading/*.ts",
+      "cause": "Non-existent Prisma models (CopyTradingSubscription)",
+      "solution": "Replaced with mock in-memory data",
+      "date": "2025-01-17"
+    }
+  ],
+  "api_knowledge": {
+    "exchange_endpoints": {
+      "binance": {
+        "spot": "/api/v3/",
+        "futures": "/fapi/v1/",
+        "websocket": "wss://stream.binance.com/ws"
+      },
+      "bybit": {
+        "v5": "/v5/",
+        "websocket": "wss://stream.bybit.com/v5/public"
+      },
+      "okx": {
+        "v5": "/api/v5/",
+        "websocket": "wss://ws.okx.com:8443/ws/v5/public"
+      },
+      "bitget": {
+        "v2": "/api/v2/",
+        "websocket": "wss://ws.bitget.com/v2/ws/public"
+      },
+      "bingx": {
+        "v2": "/openApi/swap/v2/",
+        "websocket": "wss://open-api-swap.bingx.com/swap-market"
+      }
+    },
+    "rate_limits": {
+      "binance": "1200/min general, 50/10s orders",
+      "bybit": "120/min general, 100/min orders",
+      "okx": "20/2s general, 60/2s orders",
+      "bitget": "15/s general, 30/s orders",
+      "bingx": "10/s for all"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "tool_name": "web_search",
+  "description": "Инструмент для поиска информации в интернете через z-ai-web-dev-sdk",
+  "version": "1.0.0",
+  "capabilities": [
+    "web_search",
+    "web_reader"
+  ],
+  "usage": {
+    "backend_only": true,
+    "note": "z-ai-web-dev-sdk ДОЛЖЕН использоваться только в backend коде"
+  },
+  "functions": {
+    "web_search": {
+      "purpose": "Поиск информации в интернете",
+      "sdk_method": "zai.functions.invoke('web_search', { query, num })",
+      "parameters": {
+        "query": "string (required) - Поисковый запрос",
+        "num": "number (optional) - Количество результатов (default: 10)"
+      },
+      "returns": {
+        "type": "SearchFunctionResultItem[]",
+        "fields": {
+          "url": "string - URL страницы",
+          "name": "string - Заголовок",
+          "snippet": "string - Краткое описание",
+          "host_name": "string - Домен",
+          "rank": "number - Ранг результата",
+          "date": "string - Дата публикации",
+          "favicon": "string - URL иконки"
+        }
+      },
+      "example": "const results = await zai.functions.invoke('web_search', { query: 'Binance API documentation', num: 5 });"
+    },
+    "web_reader": {
+      "purpose": "Извлечение контента с веб-страницы",
+      "sdk_method": "zai.functions.invoke('web_reader', { url })",
+      "parameters": {
+        "url": "string (required) - URL страницы для чтения"
+      },
+      "returns": {
+        "title": "string - Заголовок страницы",
+        "content": "string - HTML контент",
+        "text": "string - Текстовое содержимое",
+        "published_time": "string - Время публикации"
+      },
+      "example": "const content = await zai.functions.invoke('web_reader', { url: 'https://docs.binance.com' });"
+    }
+  },
+  "code_example": {
+    "file": "/src/app/api/search/route.ts",
+    "code": "import ZAI from 'z-ai-web-dev-sdk';\n\nexport async function GET(request: Request) {\n  const zai = await ZAI.create();\n  const { searchParams } = new URL(request.url);\n  const query = searchParams.get('q');\n  \n  const results = await zai.functions.invoke('web_search', {\n    query,\n    num: 10\n  });\n  \n  return Response.json(results);\n}"
+  },
+  "use_cases": [
+    "Получение актуальной документации API бирж",
+    "Поиск npm пакетов и их версий",
+    "Проверка актуальных error codes",
+    "Получение текущих торговых комиссий",
+    "Поиск примеров кода"
+  ],
+  "rules": [
+    "Использовать ТОЛЬКО в backend коде (API routes, server actions)",
+    "НЕ использовать в клиентских компонентах",
+    "Обрабатывать ошибки через try-catch"
+  ],
+  "related_docs": "/docs/frameworks/z-ai-sdk.md"
+}
